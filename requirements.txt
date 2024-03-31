@@ -1,0 +1,2 @@
+colorlog==6.8.2
+opencv-python==4.9.0.80
