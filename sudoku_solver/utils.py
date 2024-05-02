@@ -1,9 +1,10 @@
-from typing import Union
+from __future__ import annotations
+
 import cv2
 import numpy as np
 
 
-def debug_show_image(image: Union[str, np.ndarray], display_title: str = "DEBUG"):
+def debug_show_image(image: str | np.ndarray, display_title: str = "DEBUG"):
     image = image
     if isinstance(image, str):
         image = cv2.imread(image)
@@ -14,4 +15,4 @@ def debug_show_image(image: Union[str, np.ndarray], display_title: str = "DEBUG"
 def calculate_euclidian_distance(point1, point2):
     a = point2[0] - point1[0]
     b = point2[1] - point1[1]
-    return np.sqrt((a ** 2) + (b ** 2))
+    return np.sqrt((a**2) + (b**2))

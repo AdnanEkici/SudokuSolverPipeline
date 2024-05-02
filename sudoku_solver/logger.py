@@ -10,7 +10,7 @@ import colorlog
 class Logger:
     LOGGER_DIRECTORY = "sudoku_solver_logs"
 
-    def __init__(self, log_file: str | None = None, debug_mode:bool=False):
+    def __init__(self, log_file: str | None = None, debug_mode: bool = False):
         os.makedirs(Logger.LOGGER_DIRECTORY, exist_ok=True)
 
         if log_file is None:
@@ -68,7 +68,6 @@ class Logger:
 
     def critical(self, message):
         self.logger.critical(message)
-
 
 
 if __name__ == "__main__":
