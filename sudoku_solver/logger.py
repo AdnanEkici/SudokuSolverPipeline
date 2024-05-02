@@ -15,7 +15,7 @@ class Logger:
 
         if log_file is None:
             today = datetime.today()
-            log_file = today.strftime("%Y_%m_%d") + "_sudoku_solver.log"
+            log_file = today.strftime("%Y_%m_%d") + "_default.log"
 
         self.logger_name = Logger.LOGGER_DIRECTORY + os.sep + log_file
         self.logger = logging.getLogger(log_file)
