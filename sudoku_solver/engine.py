@@ -14,7 +14,6 @@ class ProcessorEngine:
         self.logger = logger
         self.sudoku_image = cv2.imread(image_path, 0)
         self.debug_show_image = utils.debug_show_image if debug_mode else None
-
         self.logger.debug(f"Reading image {image_path}")
         self.debug_show_image(image=self.sudoku_image)
 
