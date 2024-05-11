@@ -36,14 +36,14 @@ class SudokuDigitDataset(Dataset):
             image = self.transform(image)
         return image, label
 
-# Initialize the dataset
-transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((28, 28)),
-    transforms.ToTensor(),
-])
+# # Initialize the dataset
+# transform = transforms.Compose([
+#     transforms.ToPILImage(),
+#     transforms.Resize((28, 28)),
+#     transforms.ToTensor(),
+# ])
 
-train_data_path = r'C:\Users\Pc\Desktop\Sudoku-Dataset\extracted_digit_data\train'
+# train_data_path = r'C:\Users\Pc\Desktop\Sudoku-Dataset\extracted_digit_data\train'
 
 
 # # Loop through the dataset
@@ -80,7 +80,7 @@ train_data_path = r'C:\Users\Pc\Desktop\Sudoku-Dataset\extracted_digit_data\trai
 #     plt.tight_layout()
 #     plt.show()
 #
-train_dataset = SudokuDigitDataset(root_dir=train_data_path, transform=transform)
+# train_dataset = SudokuDigitDataset(root_dir=train_data_path, transform=transform)
 # train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 # # Assuming `images` and `labels` are obtained from the DataLoader
 # # You can directly iterate through the DataLoader as shown below

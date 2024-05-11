@@ -39,7 +39,7 @@ transform = transforms.Compose([
 ])
 
 # Initialize the dataset
-train_data_path = r'C:\Users\Pc\Desktop\Sudoku-Dataset\extracted_digit_data\train'
+train_data_path = "d_net_dataset/train"
 train_dataset = SudokuDigitDataset(root_dir=train_data_path, transform=transform)
 
 # Initialize the DataLoader
@@ -47,7 +47,7 @@ train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 # Initialize your model
 model = Dnet()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
+
 # Define the loss function and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
