@@ -2,9 +2,18 @@ from __future__ import annotations
 
 import torch.nn as nn
 import torch.nn.functional as F
+from torchvision import transforms
 
 
 class Dnet(nn.Module):
+    transform = transforms.Compose(
+        [
+            transforms.ToPILImage(),
+            transforms.Resize((28, 28)),
+            transforms.ToTensor(),
+        ]
+    )
+
     def __init__(self):
         super().__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, padding=1, kernel_size=(3, 3), stride=(1, 1))

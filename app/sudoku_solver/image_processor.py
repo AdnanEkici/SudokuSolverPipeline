@@ -1,8 +1,16 @@
 from __future__ import annotations
 
-from engine import ProcessorEngine
-from logger import Logger
+import os
+import sys
 from datetime import datetime
+
+from engine import ProcessorEngine
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+from utils.logger import Logger  # noqa
+import utils.utils as utils  # noqa
 
 if __name__ == "__main__":
     debug_mode = True

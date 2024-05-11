@@ -8,16 +8,16 @@ import colorlog
 
 
 class Logger:
-    LOGGER_DIRECTORY = "sudoku_solver_logs"
+    LOGGER_DIRECTORY = "logs"
 
     def __init__(self, log_file: str | None = None, debug_mode: bool = False):
         os.makedirs(Logger.LOGGER_DIRECTORY, exist_ok=True)
+        today = datetime.today().strftime("%Y_%m_%d")
 
         if log_file is None:
-            today = datetime.today()
-            log_file = today.strftime("%Y_%m_%d") + "_default.log"
+            log_file = "_default.log"
 
-        self.logger_name = Logger.LOGGER_DIRECTORY + os.sep + log_file
+        self.logger_name = Logger.LOGGER_DIRECTORY + os.sep + today + "_" + log_file
         self.logger = logging.getLogger(log_file)
         self.logger.setLevel(logging.DEBUG) if debug_mode else self.logger.setLevel(logging.INFO)
 
@@ -50,7 +50,7 @@ class Logger:
         )
         self.file_handler.setFormatter(self.file_formatter)
 
-        # Add the handlers to the logger
+        # Add the handlers to the utils
         self.logger.addHandler(self.stream_handler)
         self.logger.addHandler(self.file_handler)
 
