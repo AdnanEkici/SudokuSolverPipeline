@@ -1,13 +1,19 @@
 from __future__ import annotations
 
 import operator
+import os
+import sys
 from typing import Callable
 
 import cv2
 import cv2 as cv
 import numpy as np
-import utils
-from logger import Logger
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+from utils.logger import Logger  # noqa
+import utils.utils as utils  # noqa
 
 
 class ProcessorEngine:
