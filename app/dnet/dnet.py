@@ -9,6 +9,7 @@ class Dnet(nn.Module):
     transform = transforms.Compose(
         [
             transforms.ToPILImage(),
+            transforms.Grayscale(),
             transforms.Resize((28, 28)),
             transforms.ToTensor(),
         ]
