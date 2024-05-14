@@ -4,10 +4,10 @@ import operator
 import os
 import sys
 from typing import Callable
-
 import cv2
 import cv2 as cv
 import numpy as np
+from digit_classifier import DigitClassifier
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -17,12 +17,15 @@ import utils.utils as utils  # noqa
 
 
 class ProcessorEngine:
-    def __init__(self, image: str, logger: Logger, debug_mode: bool = False):
+    def __init__(self, image: str, classifier: DigitClassifier, logger: Logger):
         self.logger = logger
+        self.debug_mode = self.logger.debug_mode
         self.sudoku_image = cv2.imread(image, 0) if isinstance(image, str) else image
-        self.debug_show_image: Callable[[str | np.ndarray, str], None] = utils.debug_show_image if debug_mode else lambda *args, **kwargs: None
+        self.debug_show_image: Callable[[str | np.ndarray, str], None] = utils.debug_show_image if self.debug_mode else lambda *args, **kwargs: None
         self.logger.debug(f"Reading image {image}")
+        self.classifier = classifier
         self.debug_show_image(self.sudoku_image, "Input Image")
+
 
     def denoise_image(self, kernel_size: tuple[int, int] = (7, 7)):
         self.logger.debug(f"Applying gaussian blur with kernel: {kernel_size}")
@@ -75,3 +78,40 @@ class ProcessorEngine:
         self.sudoku_image = cv2.warpPerspective(self.sudoku_image, m, (int(side), int(side)))
         self.debug_show_image(self.sudoku_image, "Transformed Image")
         return self.sudoku_image
+
+    def pick_sudoku_cells(self):
+        # Each cell is represented by a tuple containing two tuples: the top-left and bottom-right coordinates of the
+        # cell. In summary, this code efficiently generates the coordinates of all cells in a Sudoku grid and stores
+        # them in the self.cells list.
+        self.cells = [((
+                           row_index * (side := self.sudoku_image.shape[:1][0] / 9),
+                           column_index * side
+                       ), (
+                           (row_index + 1) * side,
+                           (column_index + 1) * side
+                       )) for column_index in range(9) for row_index in range(9)]
+
+        corner_debug_image = cv2.cvtColor(self.sudoku_image.copy(), cv2.COLOR_GRAY2RGB)
+        # Marks every cells corner for debugging.
+        [cv2.circle(corner_debug_image, (int(point[0]), int(point[1])), radius=1, color=(255, 0, 255), thickness=8) for cell in self.cells for point in cell]
+        self.debug_show_image(corner_debug_image, "Marked Corners")
+
+        return self.cells
+
+    def __extract_digit(self, cell):
+        digit = self.sudoku_image[int(cell[0][1]):int(cell[1][1]), int(cell[0][0]):int(cell[1][0])]
+        return digit
+
+    def get_digits(self):
+        self.digits = [self.__extract_digit(cell) for cell in self.cells]
+        return  self.digits
+
+    def get_sudoku_board(self):
+        classified_digit_list = []
+        for digit in self.digits:
+            # self.debug_show_image(digit, "Digit"),
+            digit = self.classifier.classify_digit(digit)
+            classified_digit_list.append(digit)
+
+        sudoku_board = [classified_digit_list[i:i + 9] for i in range(0, 9*9, 9)]
+        return sudoku_board

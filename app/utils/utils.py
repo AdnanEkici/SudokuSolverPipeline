@@ -34,4 +34,4 @@ def read_yaml(yaml_file_path, logger):
 
 
 def label_mapper(label: int):
-    return label + 1 if label != 9 else "EMPTY"
+    return label + 1 if label != 9 else 0

@@ -13,13 +13,13 @@ class Logger:
     def __init__(self, log_file: str | None = None, debug_mode: bool = False):
         os.makedirs(Logger.LOGGER_DIRECTORY, exist_ok=True)
         today = datetime.today().strftime("%Y_%m_%d")
-
+        self.debug_mode = debug_mode
         if log_file is None:
             log_file = "_default.log"
 
         self.logger_name = Logger.LOGGER_DIRECTORY + os.sep + today + "_" + log_file
         self.logger = logging.getLogger(log_file)
-        self.logger.setLevel(logging.DEBUG) if debug_mode else self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG) if  self.debug_mode else self.logger.setLevel(logging.INFO)
 
         # Create a ColorFormatter
         self.color_formatter = colorlog.ColoredFormatter(
