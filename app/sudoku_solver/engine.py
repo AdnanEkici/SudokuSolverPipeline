@@ -4,9 +4,6 @@ import operator
 import os
 import sys
 from typing import Callable
-from tabulate import tabulate
-table = [[1, 2222, 30, 500], [4, 55, 6777, 1]]
-print(tabulate(table))
 import cv2
 import cv2 as cv
 import numpy as np
@@ -20,13 +17,15 @@ import utils.utils as utils  # noqa
 
 
 class ProcessorEngine:
-    def __init__(self, image: str, classifier: DigitClassifier, logger: Logger, debug_mode: bool = False):
+    def __init__(self, image: str, classifier: DigitClassifier, logger: Logger):
         self.logger = logger
+        self.debug_mode = self.logger.debug_mode
         self.sudoku_image = cv2.imread(image, 0) if isinstance(image, str) else image
-        self.debug_show_image: Callable[[str | np.ndarray, str], None] = utils.debug_show_image if debug_mode else lambda *args, **kwargs: None
+        self.debug_show_image: Callable[[str | np.ndarray, str], None] = utils.debug_show_image if self.debug_mode else lambda *args, **kwargs: None
         self.logger.debug(f"Reading image {image}")
         self.classifier = classifier
         self.debug_show_image(self.sudoku_image, "Input Image")
+
 
     def denoise_image(self, kernel_size: tuple[int, int] = (7, 7)):
         self.logger.debug(f"Applying gaussian blur with kernel: {kernel_size}")
@@ -114,5 +113,5 @@ class ProcessorEngine:
             digit = self.classifier.classify_digit(digit)
             classified_digit_list.append(digit)
 
-        sudoku_board = [classified_digit_list[i:i + 9] for i in range(0, 81, 9)]
-        print(tabulate(sudoku_board))
+        sudoku_board = [classified_digit_list[i:i + 9] for i in range(0, 9*9, 9)]
+        return sudoku_board

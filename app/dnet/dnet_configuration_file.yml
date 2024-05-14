@@ -1,16 +1,16 @@
 training:
-  train_dataset_path: path/to/train/dataset # str
-  validation_dataset_path: path/to/validation/dataset # str  ## optional if not given will not validate model.
+  train_dataset_path: datasets/d_net_dataset/train # str
+  validation_dataset_path: datasets/d_net_dataset/validation # str  ## optional if not given will not validate model.
   pre_trained_weight: ""
   learning_rate : 0.001
   batch_size: 64 # int
   device: "cuda:0" # str ## cuda:0, cuda:1 or cpu
   number_of_epochs: 100 # int
-  model_save_path: path/to/save/directory # str
-  save_frequency: 5 # int
+  model_save_path: dnet_models # str
+  save_frequency: 1 # int
   enable_augmentations: True # bool
 
 inference:
-   test_dataset_path: path/to/test/dataset # str
-   pre_trained_weights: path/to/trained/dnet/model # str
+   test_dataset_path: datasets/d_net_dataset/validation # str
+   pre_trained_weights: dnet_classifier.pth # str
    device: "cuda:0" # str ## cuda:0, cuda:1 or cpu
